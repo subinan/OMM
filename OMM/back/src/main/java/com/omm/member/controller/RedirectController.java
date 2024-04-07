@@ -6,6 +6,7 @@ import com.omm.member.model.dto.AuthDto;
 import com.omm.member.model.dto.RegistDto;
 import com.omm.member.model.dto.TokenDto;
 import com.omm.member.service.AuthService;
+import com.omm.member.service.DidService;
 import com.omm.member.service.GetCredentialService;
 import com.omm.member.service.MemberService;
 import com.omm.util.UrlInfo;
@@ -31,6 +32,8 @@ import java.net.URISyntaxException;
 public class RedirectController {
 
     private final AuthService authService;
+
+    private final DidService didService;
 
     private final MemberService memberService;
 
@@ -84,7 +87,7 @@ public class RedirectController {
         switch (type) {
             case "SIGNUP":
                 if (!memberService.existDidAddress(authDto.getHolderDid())) {
-                    RegistDto registDto = authService.registAuth(authDto);
+                    RegistDto registDto = didService.registAuth(authDto);
                     memberService.addMember(registDto);
                     memberService.addMemberCert(registDto.getHolderDid());
                     memberService.addNewInfo(authDto.getHolderDid());

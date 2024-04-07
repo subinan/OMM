@@ -6,6 +6,7 @@ import com.omm.member.model.dto.MemberFilteringDto;
 import com.omm.member.model.dto.RegistDto;
 import com.omm.member.model.request.*;
 import com.omm.member.service.AuthService;
+import com.omm.member.service.DidService;
 import com.omm.member.service.MemberService;
 import com.omm.util.CommonMethods;
 import com.omm.util.SecurityUtil;
@@ -25,7 +26,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final AuthService authService;
+    private final DidService didService;
 
     @PostMapping("/nickname")
     public ResponseEntity<?> changeNickname(@RequestBody NicknameRequestDto nicknameRequestDto){
@@ -40,7 +41,7 @@ public class MemberController {
      */
     @PostMapping
     public ResponseEntity<?> addMember(@RequestBody AuthDto authDto) {
-        RegistDto registDto = authService.registAuth(authDto);
+        RegistDto registDto = didService.registAuth(authDto);
         memberService.addMember(registDto);
         return new ResponseEntity<>("회원 가입 성공", HttpStatus.OK);
     }
